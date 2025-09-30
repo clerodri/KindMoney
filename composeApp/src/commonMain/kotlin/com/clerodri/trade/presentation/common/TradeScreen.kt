@@ -129,7 +129,7 @@ fun TradeScreen(
                 }
             ),
             contentPadding = PaddingValues(horizontal = 64.dp),
-            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 32.dp)
+            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 50.dp)
         ) {
             Text(
                 text = when (tradeType) {

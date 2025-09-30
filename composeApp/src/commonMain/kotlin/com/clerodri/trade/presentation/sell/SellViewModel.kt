@@ -98,10 +98,11 @@ class SellViewModel(
 
     fun onSellClicked() {
         val tradeCoin = state.value.coin ?: return
+        val amountFiat = _amount.value.toDoubleOrNull() ?: return
         viewModelScope.launch {
             val sellCoinResponse = sellCoinUseCase.sellCoin(
                 coin = tradeCoin.toCoin(),
-                amountInFiat = _amount.value.toDouble(),
+                amountInFiat = amountFiat,
                 price = tradeCoin.price
             )
             when (sellCoinResponse) {

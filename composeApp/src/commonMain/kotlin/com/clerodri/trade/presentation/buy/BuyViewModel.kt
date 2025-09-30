@@ -90,10 +90,11 @@ class BuyViewModel(
 
     fun onBuyClicked() {
         val tradeCoin = state.value.coin ?: return
+        val amountFiat = _amount.value.toDoubleOrNull() ?: return
         viewModelScope.launch {
             val buyCoinResponse = buyCoinUseCase.buyCoin(
                 coin = tradeCoin.toCoin(),
-                amountInFiat = _amount.value.toDouble(),
+                amountInFiat = amountFiat,
                 price = tradeCoin.price,
             )
 
