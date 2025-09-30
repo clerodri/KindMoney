@@ -29,7 +29,8 @@ import kotlinx.coroutines.flow.stateIn
 class PortfolioViewModel(
     private val portfolioRepository: PortfolioRepository,
     private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.Default
-): ViewModel()  {
+): ViewModel()
+{
 
     private val _state = MutableStateFlow(PortfolioState(isLoading = true))
     val state: StateFlow<PortfolioState> = combine(
