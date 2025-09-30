@@ -16,6 +16,8 @@ import com.clerodri.portfolio.data.PortfolioRepositoryImpl
 import com.clerodri.portfolio.presentation.PortfolioViewModel
 import com.clerodri.trade.domain.BuyCoinUseCase
 import com.clerodri.trade.domain.SellCoinUseCase
+import com.clerodri.trade.presentation.buy.BuyViewModel
+import com.clerodri.trade.presentation.sell.SellViewModel
 import io.ktor.client.HttpClient
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
@@ -65,4 +67,6 @@ val sharedModules = module{
     //trade
     singleOf(::BuyCoinUseCase)
     singleOf(::SellCoinUseCase)
+    viewModel { (coinId: String) -> BuyViewModel(get(), get(), get()) }
+    viewModel { (coinId: String) -> SellViewModel(get(), get(), get()) }
 }
