@@ -28,9 +28,8 @@ class SellViewModel(
     private val getCoinDetailsUseCase: GetCoinDetailsUseCase,
     private val portfolioRepository: PortfolioRepository,
     private val sellCoinUseCase: SellCoinUseCase,
-    //private val coinId: String,
+    private val coinId: String,
 ): ViewModel() {
-    val coinId: String = "-1"
     private val _amount = MutableStateFlow("")
     private val _state = MutableStateFlow(TradeState())
     val state = combine(

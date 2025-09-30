@@ -31,8 +31,9 @@ class BuyViewModel(
     private val getCoinDetailsUseCase: GetCoinDetailsUseCase,
     private val portfolioRepository: PortfolioRepository,
     private val buyCoinUseCase: BuyCoinUseCase,
+    private val coinId: String
 ) :  ViewModel(){
-    private val tempCoinId = "-1"
+
     private val _amount = MutableStateFlow("")
     private val _state = MutableStateFlow(TradeState())
 
@@ -56,7 +57,7 @@ class BuyViewModel(
     val events = _events.receiveAsFlow()
 
     private suspend fun getCoinDetails(balance: Double) {
-        when (val coinResponse = getCoinDetailsUseCase(tempCoinId)) {
+        when (val coinResponse = getCoinDetailsUseCase(coinId)) {
             is Result.Success -> {
                 _state.update {
                     it.copy(
