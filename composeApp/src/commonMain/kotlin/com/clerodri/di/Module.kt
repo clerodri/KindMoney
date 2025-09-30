@@ -15,6 +15,7 @@ import com.clerodri.porfolio.domain.PortfolioRepository
 import com.clerodri.portfolio.data.PortfolioRepositoryImpl
 import com.clerodri.portfolio.presentation.PortfolioViewModel
 import com.clerodri.trade.domain.BuyCoinUseCase
+import com.clerodri.trade.domain.SellCoinUseCase
 import io.ktor.client.HttpClient
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
@@ -53,11 +54,15 @@ val sharedModules = module{
     single { get<PortfolioDatabase>().portfolioDao() }
     single { get<PortfolioDatabase>().userBalanceDao() }
     viewModel { PortfolioViewModel(get()) }
-    singleOf(::BuyCoinUseCase)
+
     //coins list
     viewModel { CoinsListViewModel(get(), get()) }
     singleOf(::GetCoinsListUseCase)  // FOR USECASE THAT VIEWMODEL NEEDS
     singleOf(::KtorCoinsRemoteDataSource).bind<CoinsRemoteDataSource>()
     singleOf(::GetCoinDetailsUseCase)
     singleOf(::GetCoinPriceHistoryUseCase)
+
+    //trade
+    singleOf(::BuyCoinUseCase)
+    singleOf(::SellCoinUseCase)
 }
