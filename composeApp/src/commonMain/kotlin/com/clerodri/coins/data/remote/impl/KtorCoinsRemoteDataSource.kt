@@ -30,7 +30,7 @@ class KtorCoinsRemoteDataSource (
 
     override suspend fun getPriceHistory(coinId: String): Result<CoinPriceHistoryResponseDto, DataError.Remote> {
         return safeCall {
-            httpClient.get("$BASE_URL/coin/$coinId/history")
+            httpClient.get("$BASE_URL/coin/$coinId/price-history")
         }
     }
 

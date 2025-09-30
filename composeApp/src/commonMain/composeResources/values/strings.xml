@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="error_disk_full">Oops, it seems like your disk is full.</string>
+</resources>

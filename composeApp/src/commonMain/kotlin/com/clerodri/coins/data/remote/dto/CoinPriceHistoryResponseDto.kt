@@ -14,9 +14,9 @@ data class CoinPriceHistoryResponseDto(
 data class CoinPriceHistoryDto(
     val history: List<CoinPriceDto>
 )
+
 @Serializable
 data class CoinPriceDto(
-    val date: String,
-    val price: Double,
+    val price: Double?,
     val timestamp: Long
 )
