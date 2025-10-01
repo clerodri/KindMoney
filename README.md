@@ -183,39 +183,139 @@ assertk = "0.28.1"
 
 ## Estructura del proyecto
 
+### Arquitectura por features (Clean Architecture)
+
 ```
 kindmoney/
-├── composeApp/                 # Módulo de aplicación compartido
+├── composeApp/
 │   ├── src/
-│   │   ├── commonMain/         # Código compartido entre plataformas
+│   │   ├── commonMain/
 │   │   │   ├── kotlin/
-│   │   │   │   ├── presentation/    # UI y ViewModels
-│   │   │   │   │   ├── home/
-│   │   │   │   │   ├── market/
-│   │   │   │   │   ├── portfolio/
-│   │   │   │   │   └── transactions/
-│   │   │   │   ├── domain/          # Use Cases y modelos de dominio
-│   │   │   │   │   ├── usecases/
-│   │   │   │   │   └── models/
-│   │   │   │   ├── data/            # Repositories y data sources
-│   │   │   │   │   ├── repository/
-│   │   │   │   │   ├── local/       # Room DAO y entities
-│   │   │   │   │   └── remote/      # Ktor API clients
-│   │   │   │   └── di/              # Módulos de Koin
-│   │   ├── androidMain/        # Código específico de Android
-│   │   ├── iosMain/            # Código específico de iOS
-│   │   └── commonTest/         # Tests compartidos
+│   │   │   │   ├── features/              # Features modulares
+│   │   │   │   │   ├── coins/             # Feature: Lista y detalle de criptomonedas
+│   │   │   │   │   │   ├── data/
+│   │   │   │   │   │   │   ├── repository/
+│   │   │   │   │   │   │   ├── remote/    # API de precios
+│   │   │   │   │   │   │   └── mapper/
+│   │   │   │   │   │   ├── domain/
+│   │   │   │   │   │   │   ├── model/
+│   │   │   │   │   │   │   ├── usecase/
+│   │   │   │   │   │   │   └── repository/
+│   │   │   │   │   │   └── presentation/
+│   │   │   │   │   │       ├── list/      # Pantalla de mercado
+│   │   │   │   │   │       ├── detail/    # Detalle de moneda
+│   │   │   │   │   │       └── components/
+│   │   │   │   │   │
+│   │   │   │   │   ├── portfolio/         # Feature: Portfolio del usuario
+│   │   │   │   │   │   ├── data/
+│   │   │   │   │   │   │   ├── repository/
+│   │   │   │   │   │   │   └── local/     # Room entities y DAO
+│   │   │   │   │   │   ├── domain/
+│   │   │   │   │   │   │   ├── model/
+│   │   │   │   │   │   │   ├── usecase/   # Calcular balance, ganancias/pérdidas
+│   │   │   │   │   │   │   └── repository/
+│   │   │   │   │   │   └── presentation/
+│   │   │   │   │   │       ├── overview/  # Vista general del portfolio
+│   │   │   │   │   │       ├── holdings/  # Lista de tenencias
+│   │   │   │   │   │       └── components/
+│   │   │   │   │   │
+│   │   │   │   │   └── trade/             # Feature: Compra/Venta
+│   │   │   │   │       ├── data/
+│   │   │   │   │       │   ├── repository/
+│   │   │   │   │       │   └── local/     # Transacciones en Room
+│   │   │   │   │       ├── domain/
+│   │   │   │   │       │   ├── model/
+│   │   │   │   │       │   ├── usecase/   # ExecuteTrade, ValidateBalance
+│   │   │   │   │       │   └── repository/
+│   │   │   │   │       └── presentation/
+│   │   │   │   │           ├── buy/       # Pantalla de compra
+│   │   │   │   │           ├── sell/      # Pantalla de venta
+│   │   │   │   │           ├── history/   # Historial de transacciones
+│   │   │   │   │           └── components/
+│   │   │   │   │
+│   │   │   │   ├── core/                  # Código compartido entre features
+│   │   │   │   │   ├── database/
+│   │   │   │   │   │   ├── KindMoneyDatabase.kt
+│   │   │   │   │   │   └── DatabaseFactory.kt
+│   │   │   │   │   ├── domain/
+│   │   │   │   │   │   ├── Result.kt      # Sealed class para manejo de estados
+│   │   │   │   │   │   └── DataError.kt   # Tipos de errores
+│   │   │   │   │   ├── navigation/
+│   │   │   │   │   │   ├── Navigator.kt
+│   │   │   │   │   │   ├── Route.kt       # Definición de rutas
+│   │   │   │   │   │   └── NavGraph.kt
+│   │   │   │   │   ├── network/
+│   │   │   │   │   │   ├── HttpClientFactory.kt
+│   │   │   │   │   │   └── NetworkMonitor.kt
+│   │   │   │   │   └── util/
+│   │   │   │   │       ├── CurrencyFormatter.kt
+│   │   │   │   │       ├── DateTimeFormatter.kt
+│   │   │   │   │       └── PercentageCalculator.kt
+│   │   │   │   │
+│   │   │   │   ├── theme/                 # Tema visual
+│   │   │   │   │   ├── Color.kt           # Paleta de colores
+│   │   │   │   │   ├── Theme.kt           # Material 3 Theme
+│   │   │   │   │   ├── Type.kt            # Tipografía
+│   │   │   │   │   └── Shape.kt           # Formas personalizadas
+│   │   │   │   │
+│   │   │   │   └── di/                    # Inyección de dependencias
+│   │   │   │       └── Module.kt          # Módulos de Koin
+│   │   │   │
+│   │   │   └── App.kt                     # Punto de entrada principal
+│   │   │
+│   │   ├── androidMain/                   # Código Android específico
+│   │   │   └── kotlin/
+│   │   │       ├── MainActivity.kt
+│   │   │       └── KindMoneyApp.kt
+│   │   │
+│   │   ├── iosMain/                       # Código iOS específico (futuro)
+│   │   │
+│   │   └── commonTest/                    # Tests compartidos
+│   │       └── kotlin/
+│   │           ├── features/
+│   │           │   ├── coins/
+│   │           │   ├── portfolio/
+│   │           │   └── trade/
+│   │           └── core/
+│   │
+│   └── build.gradle.kts
+│
 ├── gradle/
-│   └── libs.versions.toml      # Catálogo de versiones
-├── screenshots/                # Capturas para el README
+│   └── libs.versions.toml                 # Catálogo de versiones
+├── screenshots/                           # Capturas para el README
 └── README.md
 ```
 
-### Módulos principales
+### Organización por features
 
-- **presentation**: Screens, components y ViewModels
-- **domain**: Lógica de negocio pura (sin dependencias de framework)
-- **data**: Implementaciones de repositorios, Room, Ktor
+Cada feature sigue **Clean Architecture** con tres capas independientes:
+
+#### 📊 **Feature: Coins** (Mercado de criptomonedas)
+- **Data**: API client para obtener precios, mappers
+- **Domain**: Modelos de monedas, use cases para filtrar/buscar
+- **Presentation**: Pantallas de lista y detalle con ViewModels
+
+#### 💼 **Feature: Portfolio** (Gestión de cartera)
+- **Data**: Room DAO para holdings, cálculos de balance
+- **Domain**: Lógica de ganancias/pérdidas, valoración actual
+- **Presentation**: Dashboard del portfolio, lista de tenencias
+
+#### 💱 **Feature: Trade** (Compra y venta)
+- **Data**: Persistencia de transacciones en Room
+- **Domain**: Validación de balance, ejecución de operaciones
+- **Presentation**: Formularios de compra/venta, historial
+
+### Módulos Core
+
+- **database**: Configuración de Room Database y DAOs compartidos
+- **domain**: Result types, error handling, modelos base
+- **navigation**: Sistema de navegación con rutas type-safe
+- **network**: Configuración de Ktor client y monitoreo de red
+- **util**: Helpers para formateo de moneda, fechas y porcentajes
+
+### Módulos transversales
+
+- **theme**: Material 3 theming (colores, tipografía, formas)
 - **di**: Configuración de inyección de dependencias con Koin
 
 ---
@@ -311,28 +411,6 @@ class PortfolioViewModelTest {
 - **AssertK**: Assertions idiomáticas
 - **Kotlinx Coroutines Test**: Testing de coroutines
 
----
-
-## Roadmap
-
-### ✅ Versión 1.0 (Actual)
-- [x] Compra/venta básica de criptomonedas
-- [x] Portfolio con balance
-- [x] Historial de transacciones
-- [x] Persistencia local con Room
-
-### 🚧 Versión 1.1 (En desarrollo)
-- [ ] Gráficos interactivos de precios
-- [ ] Alertas de precio
-- [ ] Modo demo con escenarios predefinidos
-- [ ] Exportar historial a CSV
-
-### 🔮 Versión 2.0 (Futuro)
-- [ ] Soporte para iOS
-- [ ] Trading de pares (BTC/ETH, etc.)
-- [ ] Análisis técnico básico
-- [ ] Competencias entre usuarios
-- [ ] Panel web con Angular para análisis avanzado
 
 ---
 
@@ -361,42 +439,24 @@ Este software se proporciona "TAL CUAL", sin garantías.
 
 Si quieres usar este proyecto más allá de lo permitido (comercial, producción, etc.):
 
-- **Email**: tu-email@ejemplo.com
-- **LinkedIn**: [Tu Perfil](https://linkedin.com/in/tu-perfil)
-- **Portfolio**: [tu-portfolio.com](https://tu-portfolio.com)
+- **Email**: ronaldo_hm95@hotmail.es
+- **LinkedIn**: [Tu Perfil](https://www.linkedin.com/in/clerodri/)
+
 
 ---
 
-## Agradecimientos
 
-- **CoinGecko API** por los datos de precios (si aplica)
-- **Compose Multiplatform** team por el excelente framework
-- **Koin** por la simple inyección de dependencias
-
----
-
-<p align="center">
-  Hecho con ❤️ para la comunidad de desarrollo Android
-</p>
-
-<p align="center">
-  <a href="#índice">⬆️ Volver arriba</a>
-</p>
-
----
 
 ## 📝 Notas adicionales
-
-### Para reclutadores
 
 Este proyecto demuestra:
 
 - ✅ **Arquitectura limpia** y separación de responsabilidades
-- ✅ **Kotlin Multiplatform** moderno
-- ✅ **Compose** para UI declarativa
-- ✅ **Testing** con cobertura de casos críticos
+- ✅ **Kotlin Multiplatform** 
+- ✅ **Compose** para UI 
+- ✅ **Testing** 
 - ✅ **Buenas prácticas** de desarrollo Android/KMP
-- ✅ **Código mantenible** y bien documentado
+- ✅ **Código mantenible** 
 
 El enfoque en **simulación de trading** muestra capacidad para manejar:
 - Estados complejos (balance, transacciones, portfolio)
@@ -406,4 +466,4 @@ El enfoque en **simulación de trading** muestra capacidad para manejar:
 
 ---
 
-**¿Preguntas?** Abre un issue o contáctame directamente. ¡Gracias por visitar! 🚀
+**¿Preguntas?** contáctame directamente. ¡Gracias la visita! 🚀
