@@ -49,7 +49,7 @@
   <img src="screenshots/coins_buy.png" width="250" alt="Buy Coins" />
 </p>
 
-> **Nota**: Las capturas mostrarán la interfaz de mercado, portfolio y transacciones una vez completadas.
+
 
 ---
 
@@ -336,7 +336,7 @@ Cada feature sigue **Clean Architecture** con tres capas independientes:
 
 1. **Clonar el repositorio**
    ```bash
-   git clone https://github.com/tu-usuario/kind-money.git
+   git clone https://github.com/clerodri/KindMoney.git
    cd kind-money
    ```
 
