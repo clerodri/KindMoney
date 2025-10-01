@@ -11,7 +11,7 @@
 ---
 
 <p align="center">
-  <img src="screenshots/clean_architecture.jpg" alt="Kind Money App Demo" width="960" />
+  <img src="screenshots/clean_architecture.jpg" alt="Kind Money App Demo" width="500" />
 </p>
 
 ---
