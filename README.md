@@ -41,9 +41,12 @@
 ## 📷 Capturas de pantalla
 
 <p align="center">
-  <img src="screenshots/home-screen.png" width="250" />
-  <img src="screenshots/portfolio-screen.png" width="250" />
-  <img src="screenshots/trading-screen.png" width="250" />
+  <img src="screenshots/home.png" width="250" alt="Home Screen" />
+  <img src="screenshots/buy_coins.png" width="250"  alt="Coins Screen"/>
+  <img src="screenshots/coins.png" width="250"  alt="Coins Screen" />
+  <img src="screenshots/sell_coin.png" width="250" alt="Sell Coins" />
+  <img src="screenshots/coins_canvas.png" width="250" alt="Canvas" />
+  <img src="screenshots/coins_buy.png" width="250" alt="Buy Coins" />
 </p>
 
 > **Nota**: Las capturas mostrarán la interfaz de mercado, portfolio y transacciones una vez completadas.
