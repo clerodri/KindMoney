@@ -22,8 +22,6 @@
 - [Arquitectura](#arquitectura)
 - [Estructura del proyecto](#estructura-del-proyecto)
 - [Configuración y desarrollo local](#configuración-y-desarrollo-local)
-- [Roadmap](#roadmap)
-- [Licencia](#licencia)
 
 ---
 
