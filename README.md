@@ -112,7 +112,6 @@ El objetivo es proporcionar un **entorno seguro** para experimentar con estrateg
 | **Database** | Room | `2.8.1` |
 | **Images** | Coil | `3.3.0` |
 | **Serialization** | Kotlinx Serialization | `1.9.0` |
-| **Testing** | JUnit, Turbine, AssertK | - |
 
 ## Arquitectura
 
