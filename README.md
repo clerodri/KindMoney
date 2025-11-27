@@ -10,17 +10,7 @@
 
 ---
 
-<p align="center">
-  <img src="screenshots/clean_architecture.jpg" alt="Kind Money App Demo" width="500" />
-</p>
 
----
-
-## 🎬 Demo en vídeo
-
-> Coming soon...
-
----
 
 ## Índice
 
@@ -32,7 +22,6 @@
 - [Arquitectura](#arquitectura)
 - [Estructura del proyecto](#estructura-del-proyecto)
 - [Configuración y desarrollo local](#configuración-y-desarrollo-local)
-- [Testing](#testing)
 - [Roadmap](#roadmap)
 - [Licencia](#licencia)
 
@@ -48,7 +37,6 @@
   <img src="screenshots/coins_canvas.png" width="250" alt="Canvas" />
   <img src="screenshots/coins_buy.png" width="250" alt="Buy Coins" />
 </p>
-
 
 
 ---
@@ -126,32 +114,6 @@ El objetivo es proporcionar un **entorno seguro** para experimentar con estrateg
 | **Serialization** | Kotlinx Serialization | `1.9.0` |
 | **Testing** | JUnit, Turbine, AssertK | - |
 
-### Dependencias clave
-
-```toml
-# Networking
-ktor-client-core = "3.3.0"
-ktor-client-content-negotiation = "3.3.0"
-
-# Database
-room = "2.8.1"
-sqlite-bundled = "2.6.1"
-
-# DI
-koin-compose = "4.1.1"
-koin-compose-viewmodel = "4.1.1"
-
-# Images
-coil-compose = "3.3.0"
-coil-network-ktor = "3.3.0"
-
-# Testing
-turbine = "1.2.1"
-assertk = "0.28.1"
-```
-
----
-
 ## Arquitectura
 
 ### Patrón MVVM + Clean Architecture
@@ -173,16 +135,6 @@ assertk = "0.28.1"
 └─────────────────────────────────────────────────┘
 ```
 
-### Flujo de datos
-
-1. **UI (Composables)** → Observa StateFlow/State desde ViewModel
-2. **ViewModel** → Llama a Use Cases del dominio
-3. **Use Cases** → Coordinan lógica de negocio y llaman Repositories
-4. **Repositories** → Deciden entre fuente local (Room) o remota (Ktor)
-5. **Data Sources** → Ejecutan queries SQL o HTTP requests
-6. **Flow/Result** → Propaga datos de vuelta hasta la UI
-
----
 
 ## Estructura del proyecto
 
@@ -368,75 +320,6 @@ La base de datos se crea automáticamente en el primer inicio. Si necesitas limp
 ./gradlew :composeApp:uninstallAll
 ```
 
----
-
-## Testing
-
-### Ejecutar tests
-
-```bash
-# Todos los tests
-./gradlew test
-
-# Tests específicos de commonMain
-./gradlew :composeApp:testDebugUnitTest
-
-# Tests de UI
-./gradlew :composeApp:connectedAndroidTest
-```
-
-### Estructura de tests
-
-```kotlin
-// Ejemplo: ViewModel Test
-class PortfolioViewModelTest {
-    @Test
-    fun `when buying crypto, balance decreases correctly`() = runTest {
-        // Given
-        val viewModel = PortfolioViewModel(...)
-        
-        // When
-        viewModel.buyCrypto("BTC", amount = 1000.0)
-        
-        // Then
-        viewModel.state.test {
-            val state = awaitItem()
-            assertThat(state.balance).isEqualTo(9000.0)
-        }
-    }
-}
-```
-
-### Librerías de testing
-
-- **JUnit 4**: Framework base
-- **Turbine**: Testing de Flows
-- **AssertK**: Assertions idiomáticas
-- **Kotlinx Coroutines Test**: Testing de coroutines
-
-
----
-
-## Licencia
-
-```
-Licencia de Uso para Portafolio — No Comercial v1.0
-
-Copyright © 2025 [Tu Nombre]
-Todos los derechos reservados, salvo lo permitido a continuación.
-
-✅ PERMITIDO:
-- Ver, clonar y ejecutar con fines personales, académicos o de evaluación
-- Crear modificaciones privadas para aprendizaje
-
-❌ NO PERMITIDO sin autorización:
-- Uso comercial de cualquier tipo
-- Redistribuir o publicar en otros repositorios
-- Usar para entrenar modelos de IA
-- Eliminar avisos de copyright
-
-Este software se proporciona "TAL CUAL", sin garantías.
-```
 
 ### Contacto para licencias comerciales
 
@@ -446,27 +329,4 @@ Si quieres usar este proyecto más allá de lo permitido (comercial, producción
 - **LinkedIn**: [Tu Perfil](https://www.linkedin.com/in/clerodri/)
 
 
----
-
-
-
-## 📝 Notas adicionales
-
-Este proyecto demuestra:
-
-- ✅ **Arquitectura limpia** y separación de responsabilidades
-- ✅ **Kotlin Multiplatform** 
-- ✅ **Compose** para UI 
-- ✅ **Testing** 
-- ✅ **Buenas prácticas** de desarrollo Android/KMP
-- ✅ **Código mantenible** 
-
-El enfoque en **simulación de trading** muestra capacidad para manejar:
-- Estados complejos (balance, transacciones, portfolio)
-- Operaciones asíncronas (API calls, database)
-- Cálculos financieros precisos
-- UX fluida con datos en tiempo real
-
----
-
-**¿Preguntas?** contáctame directamente. ¡Gracias la visita! 🚀
+**¿Preguntas?** contáctame directamente.
